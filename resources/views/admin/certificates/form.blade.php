@@ -1,0 +1,21 @@
+@extends('layouts.admin')
+
+@section('title', $isEditing ? 'Edit Sertifikat' : 'Tambah Sertifikat')
+
+@section('content')
+    <div class="admin-content-heading"><div><span class="eyebrow-label">ARSIP DOKUMEN ANGGOTA</span><h1>{{ $isEditing ? 'Edit Sertifikat' : 'Tambah Sertifikat' }}</h1><p>Lengkapi informasi sertifikat dan unggah berkas PDF.</p></div><a class="admin-secondary-button" href="{{ $isEditing ? route('admin.certificates.show', $certificate) : route('admin.certificates.index') }}">← Kembali</a></div>
+    @if ($errors->any())<div class="admin-alert error" role="alert">{{ $errors->first() }}</div>@endif
+    <form class="dashboard-card certificate-form" method="POST" enctype="multipart/form-data" action="{{ $isEditing ? route('admin.certificates.update', $certificate) : route('admin.certificates.store') }}">
+        @csrf @if ($isEditing)@method('PUT')@endif
+        <div class="certificate-form-grid">
+            <div class="admin-field"><label for="title">Nama sertifikat *</label><input class="admin-input" id="title" name="title" value="{{ old('title', $certificate->title) }}" maxlength="180" required placeholder="Contoh: Sertifikat Pendidikan Dasar MAHAPATI">@error('title')<span class="admin-error">{{ $message }}</span>@enderror</div>
+            <div class="admin-field"><label for="certificate_number">Nomor sertifikat</label><input class="admin-input" id="certificate_number" name="certificate_number" value="{{ old('certificate_number', $certificate->certificate_number) }}" maxlength="100" placeholder="Opsional">@error('certificate_number')<span class="admin-error">{{ $message }}</span>@enderror</div>
+            <div class="admin-field"><label for="member_id">Anggota penerima *</label><select class="admin-select" id="member_id" name="member_id" required><option value="">Pilih anggota</option>@foreach ($members as $member)<option value="{{ $member->id }}" @selected((string) old('member_id', $certificate->member_id) === (string) $member->id)>{{ $member->full_name }} — NRA {{ $member->nra }}</option>@endforeach</select>@error('member_id')<span class="admin-error">{{ $message }}</span>@enderror</div>
+            <div class="admin-field"><label for="activity_id">Kegiatan terkait *</label><select class="admin-select" id="activity_id" name="activity_id" required><option value="">Pilih kegiatan</option>@foreach ($activities as $activity)<option value="{{ $activity->id }}" @selected((string) old('activity_id', $certificate->activity_id) === (string) $activity->id)>{{ $activity->title }}{{ $activity->planned_at ? ' — '.$activity->planned_at->translatedFormat('d M Y') : '' }}</option>@endforeach</select>@error('activity_id')<span class="admin-error">{{ $message }}</span>@enderror</div>
+            <div class="admin-field"><label for="issued_at">Tanggal terbit</label><input class="admin-input" type="date" id="issued_at" name="issued_at" value="{{ old('issued_at', $certificate->issued_at?->format('Y-m-d')) }}">@error('issued_at')<span class="admin-error">{{ $message }}</span>@enderror</div>
+            <div class="admin-field certificate-upload-field"><label for="pdf">Berkas sertifikat PDF {{ $isEditing ? '(opsional)' : '*' }}</label><input class="admin-input" type="file" id="pdf" name="pdf" accept="application/pdf,.pdf" {{ $isEditing ? '' : 'required' }}><small>PDF saja, maksimal 5 MB. Berkas tidak ditampilkan secara publik.</small>@if ($isEditing)<small>Unggah berkas baru hanya jika ingin mengganti PDF saat ini.</small>@endif @error('pdf')<span class="admin-error">{{ $message }}</span>@enderror</div>
+            <div class="admin-field certificate-notes-field"><label for="notes">Catatan (opsional)</label><textarea class="admin-textarea" id="notes" name="notes" rows="4" maxlength="3000" placeholder="Catatan internal untuk Admin">{{ old('notes', $certificate->notes) }}</textarea>@error('notes')<span class="admin-error">{{ $message }}</span>@enderror</div>
+        </div>
+        <div class="admin-button-row certificate-actions"><button class="admin-action-button" type="submit">{{ $isEditing ? 'Simpan Perubahan' : 'Terbitkan Sertifikat' }}</button><a class="admin-secondary-button" href="{{ $isEditing ? route('admin.certificates.show', $certificate) : route('admin.certificates.index') }}">Batal</a></div>
+    </form>
+@endsection

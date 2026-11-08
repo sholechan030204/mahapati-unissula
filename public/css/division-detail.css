@@ -1,0 +1,35 @@
+.division-breadcrumb { padding-block: 19px; display: flex; flex-wrap: wrap; gap: 9px; color: var(--muted); font-size: 12px; }
+.division-breadcrumb a { color: var(--navy); text-decoration: none; }
+.division-breadcrumb a:hover { color: #9b7900; }
+.division-detail-hero { padding: 30px 0 66px; background: linear-gradient(180deg,var(--white),#f7f9fc); }
+.division-detail-hero-grid { display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 52px; }
+.division-detail-heading h1 { margin: 0; color: var(--navy); font-size: clamp(38px,6vw,62px); line-height: 1.08; }
+.division-detail-image { height: 360px; margin: 0; overflow: hidden; border-radius: 16px; background: #dce6ef; box-shadow: var(--shadow); }
+.division-detail-image img { width: 100%; height: 100%; display: block; object-fit: cover; }
+.division-narrative-section { background: var(--white); }
+.division-narrative { max-width: 900px; }
+.division-narrative .section-title { margin-bottom: 20px; }
+.division-narrative > p:not(.section-kicker), .division-purpose-copy > p:not(.section-kicker) { color: var(--muted); font-size: 16px; line-height: 1.9; }
+.division-purpose-section { padding: 64px 0 72px; background: var(--surface); }
+.division-purpose-copy { max-width: 900px; }
+.division-purpose-copy .section-title { margin-bottom: 18px; }
+.division-purpose-copy h3 { margin: 30px 0 8px; color: var(--navy); font-size: 20px; }
+.division-detail-cta { padding: 52px 0; color: var(--white); background: var(--navy); }
+.division-detail-cta-content { display: flex; align-items: center; justify-content: space-between; gap: 30px; }
+.division-detail-cta .section-kicker { color: var(--gold-light); }
+.division-detail-cta h2 { margin: 0; color: var(--white); font-size: clamp(26px,4vw,38px); }
+.division-detail-cta p:last-child { margin: 10px 0 0; color: #d7e2ed; font-size: 14px; }
+@media (max-width: 850px) {
+    .division-detail-hero-grid { gap: 30px; }
+    .division-detail-image { height: 310px; }
+}
+@media (max-width: 700px) {
+    .division-detail-hero { padding: 14px 0 48px; }
+    .division-detail-hero-grid { grid-template-columns: 1fr; gap: 26px; }
+    .division-detail-image { height: 260px; }
+    .division-purpose-section { padding: 50px 0 56px; }
+    .division-detail-cta-content { align-items: flex-start; flex-direction: column; }
+}
+@media (max-width: 400px) {
+    .division-detail-image { height: 220px; }
+}
